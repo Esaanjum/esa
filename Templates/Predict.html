@@ -1,0 +1,236 @@
+{% extends "Base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{% block script %}
+  <script>
+    $(document).ready(function () {
+
+var airports = ["Netaji Subhash Chandra Bose International Airport", "Kempegowda International Airport Bengaluru", "Agartala Airport", "Agatti Airport", "Agra Airport", "Akola Airport", "Allahabad Airport", "Along Airport", "Aurangabad Airport", "Bagdogra Airport", "Balurghat Airport", "Bareilly Air Force Station", "Basanth Nagar Airport", "Basanth Nagar Airport", "Begumpet Airport", "Belgaum Airport", "Bellary Airport", "Bathinda Airport", "Bhavnagar Airport", "Bhuj Airport", "Biju Patnaik Airport", "Bilaspur Airport", "Birsa Munda Airport", "Calicut International Airport", "Car Nicobar Air Force Station", "Chandigarh Airport", "Chaudhary Charan Singh International Airport", "Chennai International Airport", "Mumbai International Airport", "Cochin International Airport", "Coimbatore International Airport", "Cooch Behar Airport", "Dabolim Airport", "Daman Airport", "Daporijo Airport", "Dehradun Airport", "Devi Ahilyabai Holkar Airport", "Dhanbad Airport", "Dibrugarh Airport", "Dimapur Airport", "Diu Airport", "Dr. Babasaheb Ambedkar International Airport", "Gaya Airport", "Gorakhpur Airport", "Guna Airport", "Gwalior Airport", "Hisar Airport", "Hubli Airport", "Imphal Airport", "Indira Gandhi International Airport", "Jabalpur Airport", "Jaipur International Airport", "Jaisalmer Airport"]
+
+$("#Stop_1").hide();
+$("#Stop_2").hide();
+$("#Stop_3").hide();
+$("#Stop_4").hide();
+function getAirportsList(airports, StopId) {
+    var mySelect = $(StopId);
+    if ($(mySelect).has('option').length == 0) {
+        for (i=0;i<=airports.length;i++){
+          mySelect.append('<option>'+airports[i]+'</option>')
+        }
+    }
+}
+
+
+$("#Total_Stops").change(function () {
+    if ($("#Total_Stops").val() == "1 stop") {
+        $("#Stop_1").show();
+        $("#Stop_2").hide();
+        $("#Stop_3").hide();
+        $("#Stop_4").hide();
+        getAirportsList(airports, '#Stop_1')
+
+    }
+    else if ($("#Total_Stops").val() == "2 stops") {
+        $("#Stop_1").show();
+        $("#Stop_2").show();
+        $("#Stop_3").hide();
+        $("#Stop_4").hide();
+        getAirportsList(airports, '#Stop_1')
+        getAirportsList(airports, '#Stop_2')
+    }
+    else if ($("#Total_Stops").val() == "3 stops") {
+        $("#Stop_1").show();
+        $("#Stop_2").show();
+        $("#Stop_3").show();
+        $("#Stop_4").hide();
+        getAirportsList(airports, '#Stop_1')
+        getAirportsList(airports, '#Stop_2')
+        getAirportsList(airports, '#Stop_3')
+
+    }
+    else if ($("#Total_Stops").val() == "4 stops") {
+        $("#Stop_1").show();
+        $("#Stop_2").show();
+        $("#Stop_3").show();
+        $("#Stop_4").show();
+        getAirportsList(airports, '#Stop_1')
+        getAirportsList(airports, '#Stop_2')
+        getAirportsList(airports, '#Stop_3')
+        getAirportsList(airports, '#Stop_4')
+
+    }
+    else {
+        $("#Stop_1").hide();
+        $("#Stop_2").hide();
+        $("#Stop_3").hide();
+        $("#Stop_4").hide();
+    }
+});
+
+
+
+$("#Source").change(function () {
+    $('#Route_Source').val($("#Source").val());
+});
+$("#Destination").change(function () {
+    $('#Route_Destination').val($('#Destination').val());
+});
+
+});
+  </script>
+  <!-- <script src="{{url_for('static', filename='js/functions.js')}}"></script> -->
+  <!-- <script src="../static/js/functions.js"></script> -->
+  {% endblock %}
+</head>
+
+
+<body>
+{% block content %}
+  <div class="jumbotron text-center">
+    <h1>Flight Price Prediction</h1>
+    <h3>Predict</h3>
+    <p>This is an application for predicting flight prices based on flight dataset</p>
+  </div>
+
+  <div class="container">
+    <form action="/predict" method="post">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="Airline">Airline:</label>
+            <select class="form-control" id="Airline" name='Airline' required>
+              <option>Jet Airways</option>
+              <option>IndiGo</option>
+              <option>Air India</option>
+              <option>Multiple carriers</option>
+              <option>SpiceJet</option>
+              <option>Vistara</option>
+              <option>Air Asia</option>
+              <option>GoAir</option>
+              <option>Multiple carriers Premium economy</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="Date Of Departure">Date Of Departure:</label>
+            <input type="date" name="Date_of_Departure" class="form-control" placeholder="dd/mm/yyyy" required />
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label for="Total_Stops">Total_Stops:</label>
+            <select class="form-control" id="Total_Stops" name='Total_Stops' required>
+              <option>non-stop</option>
+              <option>1 stop</option>
+              <option>2 stops</option>
+              <option>3 stops</option>
+              <option>4 stops</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="Departure Time">Departure time:</label>
+            <input type="time" name="Dep_Time" class="form-control" title="HH:MM:AM/PM" required />
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="Arrival_Time">Arrival Time:</label>
+            <input type="time" name="Arrival_Time" class="form-control" title="HH:MM:AM/PM" required />
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="Date Of Arrival">Date Of Arrival:</label>
+            <input type="date" name="Date_of_Arrival" class="form-control" placeholder="dd/mm/yyyy" required />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label for="Source">Source:</label>
+            <select class="form-control" id="Source" name='Source' required>
+              <option></option>
+              <option>Delhi</option>
+              <option>Kolkata</option>
+              <option>Banglore</option>
+              <option>Mumbai</option>
+              <option>Chennai</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label for="Destination">Destination:</label>
+            <select class="form-control" id="Destination" name='Destination' required>
+              <option></option>
+              <option>Cochin</option>
+              <option>Banglore</option>
+              <option>Delhi</option>
+              <option>New Delhi</option>
+              <option>Hyderabad</option>
+              <option>Kolkata</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+      <div class="row">
+          <div class="form-group">
+            <label>Route:</label>
+            <div class="col-sm-3">
+            <input type="text" id="Route_Source" name="Route_Source" class="form-group" readonly required />
+          </div>
+          <div class="col-sm-4">
+            <select id="Stop_1" name='Stop_1' class="form-control" ></select>
+            <select id="Stop_2" name='Stop_2' class="form-control" ></select>
+            <select id="Stop_3" name='Stop_3' class="form-control" ></select>
+            <select id="Stop_4" name='Stop_4' class="form-control" ></select>
+          </div>
+          <div class="col-sm-3">
+            <input type="text" id="Route_Destination" name="Route_Destination" class="form-group" readonly required />
+            </div>
+          </div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="Additional_Info">Additional Info:</label>
+            <select class="form-control" id="Additional_Info" name='Additional_Info' required>
+              <option>No info</option>
+              <option>In-flight meal not included</option>
+              <option>No check-in baggage included</option>
+              <option>1 Long layover</option>
+              <option>2 Long layover</option>
+              <option>1 Short layover</option>
+              <option>Change airports</option>
+              <option>Business class</option>
+              <option>Red-eye flight</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Predict</button>
+      <button type="reset" class="btn btn-primary">Reset</button>
+    </form>
+
+    <br>
+    <br>
+     <h3>{{ content }}</h3>
+    <br>
+        <br>
+        <p>©2021 Data Science Project with Dr:Imran Amin & Dr:Irfan Tanoli</p>
+  </div>
+  {% endblock %}
+</body>
+
+</html>

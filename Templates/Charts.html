@@ -1,0 +1,40 @@
+{% extends "Base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% block script %}
+	<script></script>
+	{% endblock %}
+</head>
+
+<body>
+  {% block content %}
+<div class="jumbotron text-center">
+  <h1>Flight Price Prediction</h1>
+  <h3>Graphical Representation</h3>
+  <p>This is an application for predicting flight prices based on flight dataset</p> 
+</div>
+<div class="container">
+    <form action="/chart" method="GET">
+      <h3>Feature Importance</h3>
+      <img src="{{url_for('static', filename='feature_importance.png')}}" />
+      <h3>Graphs of Some Important Features</h3>
+      <img src="{{url_for('static', filename='journey_day.png')}}" />    
+      <img src="{{url_for('static', filename='journey_month.png')}}" />    
+      <img src="{{url_for('static', filename='total_stops.png')}}" />    
+      <h3>Outliers</h3>
+      <img src="{{url_for('static', filename='outliers.png')}}" />
+      <h3>Fixed Outliers</h3>
+      <img src="{{url_for('static', filename='fixed_outliers.png')}}" />
+      <h3>Price and Time Series Analysis</h3>
+      <img src="{{url_for('static', filename='price_time_series.png')}}" />   
+      <h3>Random Forest Accuracy</h3>
+      <img src="{{url_for('static', filename='random_forest_accuracy.png')}}" />     
+    </form>
+    <br>
+        <br>
+        <p>©2021 Data Science Project with Dr:Imran Amin & Dr:Irfan Tanoli</p>
+</div>
+{% endblock %}
+</body>
